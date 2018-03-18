@@ -22,22 +22,22 @@ foreach ($caminhos as $file) {
         continue;   
     }
     
+    echo 'Ficheiro: ' . $file . '<br/>';
+
     # Get Encoding
     $contents = file_get_contents($file);
     $encoding_inicial = mb_detect_encoding($contents, $possible_encodings);
 
-    # Converte encoding
-    $final = mb_convert_encoding($contents, $encoding_final, $possible_encodings);
-    
-    echo 'Ficheiro: ' . $file . '<br/>';
-    
     if($encoding_final == $encoding_inicial){
         echo 'Ficheiro já está no encoding pretendido.<br/>';
         continue;  
-    }    
-    
+    }
+
     # Create backup file
     file_put_contents($file.'_bkp', $contents);
+
+    # Converte encoding
+    $final = mb_convert_encoding($contents, $encoding_final, $possible_encodings);
         
     # Replace do conteudo
     file_put_contents($file, $final);
